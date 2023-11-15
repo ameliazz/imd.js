@@ -1,7 +1,7 @@
 {
     "name": "@canary2000/imd.js",
     "description": "Elegant JavaScript alternative for in-memory documents",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "license": "LGPL-3.0-only",
     "author": "Amélia Ribeiro <its.amelina@proton.me> (https://ameliadev.tech/)",
     "keywords": [
