@@ -12,17 +12,13 @@
     "main": "dist/index.js",
     "repository": "https://github.com/Canary2000/imd.js.git",
     "devDependencies": {
-        "@types/uuid": "^9.0.7",
-        "ts-node-dev": "^2.0.0",
         "typescript": "^5.2.2"
     },
     "dependencies": {
         "chalk": "4.1.2",
-        "eventemitter3": "^5.0.1",
-        "uuid": "^9.0.1"
+        "eventemitter3": "^5.0.1"
     },
     "scripts": {
-        "build": "tsc -d --declarationDir dist",
-        "publish": "yarn publish"
+        "build": "tsc -d --declarationDir dist"
     }
 }
