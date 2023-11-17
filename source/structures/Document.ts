@@ -1,8 +1,8 @@
 class Document<T> {
-    _id: number
+    _id: number | string
     content?: T | unknown
 
-    constructor(id: number, data: T | unknown) {
+    constructor(id: number | string, data: T) {
         this._id = id
         this.content = data
     }

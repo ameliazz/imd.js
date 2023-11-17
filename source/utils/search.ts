@@ -9,7 +9,7 @@ export const SearchByIdentifier = (list: Document<any>[], target: number) => {
 
         if (target === list[current]._id) return current
 
-        if (target < list[current]._id) right = current - 1
+        if (target < Number(list[current]._id)) right = current - 1
         else left = current + 1
     }
 
