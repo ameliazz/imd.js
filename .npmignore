@@ -1,6 +1,10 @@
 node_modules/
 source/
+tests/
 
 tsconfig.json
+jest.config.js
+
 .gitignore
-yarn.locks
+yarn.lock
+.npmrc

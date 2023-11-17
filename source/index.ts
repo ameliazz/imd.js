@@ -5,45 +5,67 @@ import { ImdOptions } from './types/Options'
 import { SearchByIdentifier } from './utils/search'
 
 class Imd extends Emitter {
-    documents: Document<any>[] = []
-    maxDocuments: number = -1
-    useCopies?: boolean
+    documents: Document<unknown>[] = []
+    maxDocuments: number
 
     constructor(Options?: ImdOptions) {
         super()
-        this.useCopies = Boolean(Options?.useCopies)
-        this.maxDocuments = Number(Options?.maxDocuments) >= 1 ? Number(Options?.maxDocuments) : -1
+        this.maxDocuments = isNaN(Number(Options?.maxDocuments)) ? -1 : Number(Options?.maxDocuments)
     }
 
-    create<T>(content: T): Document<T> | undefined {
-        if (this.documents.length == this.maxDocuments) {
-            return undefined
+    create<T>(content: T, key?: string): Document<T> | undefined {
+        if (this.maxDocuments !== -1 && (this.documents.length + 1) >= this.maxDocuments) {
+            throw new Error('The documents limit has been reached!')
         }
 
-        if (!this.useCopies && SearchByIdentifier(this.documents, (this.documents.length + 1)) !== -1) {
-            return undefined
-        }
-
-        if (!content && content !== 0) return undefined
-
-        const document = new Document<T>((this.documents.length + 1), content)
+        const document = new Document<T>((key || (this.documents.length + 1)), content)
         this.documents.push(document)
 
         return document
     }
 
-    rescue(identifier: number): Document<any> | undefined {
+    bulkCreate<T>(documents: { key?: string, content: T }[] | T[]): Document<T>[] | undefined {
+        console.warn('WARN: `bulkCreate()` METHOD IS A EXPERIMENTAL FUNCTION')
+
+        if (this.maxDocuments !== -1 && (this.documents.length + documents.length) >= this.maxDocuments) {
+            throw new Error('The documents limit has been reached!')
+        }
+
+        const length = this.documents.length
+
+        for (const documentData of documents) {
+            const document = typeof documentData == 'object'
+                ? new Document<T>(
+                    Object(documentData)?.key || (this.documents.length + 1),
+                    Object(documentData)?.content
+                )
+                : new Document<T>(
+                    (this.documents.length + 1),
+                    documentData
+                )
+
+            this.documents.push(document)
+        }
+
+        return this.documents.slice(length)
+    }
+
+    rescue(identifier: number | string): Document<unknown> | undefined {
         if (!identifier && identifier !== 0) return undefined
 
         if (this.documents.length <= 0) {
             return undefined
         }
 
-        const resultOfSearch = SearchByIdentifier(this.documents, identifier)
-        return (resultOfSearch == -1
-            ? undefined
-            : this.documents[resultOfSearch]
-        )
+        if (!isNaN(Number(identifier))) {
+            const resultOfSearch = SearchByIdentifier(this.documents, Number(identifier))
+            return (resultOfSearch == -1
+                ? undefined
+                : this.documents[resultOfSearch]
+            )
+        }
+
+        return this.documents.find(document => document._id == identifier)
     }
 }
 
