@@ -28,7 +28,7 @@ After we import and instantiate, here are examples of creating documents and get
 + *`create(value, key?)`*: Used to create a new document
 ```js
 const MyTextDocument = MyDocuments.create("Hello World!")
-// => Document { _id: 1, content: "Hello World!" } 
+// => Document { _id: 1, content: "Hello World!", timestamp: "..." } 
 ```
 
 + *[**EXPERIMENTAL**] `bulkCreate(value, key?)`*: Used to create multiple documents in one time
@@ -38,7 +38,7 @@ MyDocuments.bulkCreate([
         content: "Hello World"
     }
 ])
-// => Document { _id: 1, content: "Hello World!" } 
+// => Document { _id: 1, content: "Hello World!", timestamp: "..." } 
 ```
 
 + *`rescue(identificator)`*: Used to obtain a document
@@ -47,5 +47,5 @@ MyDocuments.bulkCreate([
 const MyTextDocument = MyDocuments.create("Hello World!")
 
 MyDocuments.rescue(MyTextDocument._id)
-// => Document { _id: 1, content: "Hello World!" } 
+// => Document { _id: 1, content: "Hello World!", timestamp: "..." } 
 ```

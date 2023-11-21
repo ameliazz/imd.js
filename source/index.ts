@@ -2,7 +2,7 @@ import Emitter from 'eventemitter3'
 
 import Document from './structures/Document'
 import { ImdOptions } from './types/Options'
-import { SearchByIdentifier } from './utils/search'
+import { SearchByNumericIdentifier } from './utils/search'
 
 class Imd extends Emitter {
     documents: Document<unknown>[] = []
@@ -19,6 +19,7 @@ class Imd extends Emitter {
         }
 
         const document = new Document<T>((key || (this.documents.length + 1)), content)
+        this.emit('create', document)
         this.documents.push(document)
 
         return document
@@ -47,7 +48,25 @@ class Imd extends Emitter {
             this.documents.push(document)
         }
 
-        return this.documents.slice(length)
+        const docs = this.documents.slice(length)
+        this.emit('create', docs)
+
+        return docs
+    }
+
+    remove(identifier: number | string): boolean {
+        const document = this.rescue(identifier)
+
+        if (!document) {
+            return false
+        }
+
+        this.emit('remove', document)
+        this.documents = this.documents.filter((document) => {
+            return document._id !== identifier
+        })
+
+        return true
     }
 
     rescue(identifier: number | string): Document<unknown> | undefined {
@@ -58,7 +77,7 @@ class Imd extends Emitter {
         }
 
         if (!isNaN(Number(identifier))) {
-            const resultOfSearch = SearchByIdentifier(this.documents, Number(identifier))
+            const resultOfSearch = SearchByNumericIdentifier(this.documents, Number(identifier))
             return (resultOfSearch == -1
                 ? undefined
                 : this.documents[resultOfSearch]
