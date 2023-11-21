@@ -9,7 +9,7 @@ describe('Basic Usage', () => {
         expect(result).toBeInstanceOf(Document<string>)
     })
 
-    it('Creating and Obtain ONE document using Key', () => {
+    it('Creating and Obtain ONE document using String Key', () => {
         const Memory = new Imd()
         Memory.create('Its a test with document Key', 'test-with-key')
 
@@ -17,7 +17,18 @@ describe('Basic Usage', () => {
         expect(result).toBeInstanceOf(Document<string>)
     })
 
-    it('Max documents limit', () => {
+    it('Testing `remove()` method', () => {
+        const Memory = new Imd()
+        Memory.create('Its a test with document Key', 'test-with-key')
+        Memory.remove('test-with-key')
+
+        const document = Memory.rescue('test-with-key')
+        expect(document).toBeFalsy()
+    })
+})
+
+describe('Feature Tests', () => {
+    it('Reaching the maximum document limit', () => {
         expect(() => {
             const Memory = new Imd({
                 maxDocuments: 20
@@ -34,11 +45,10 @@ describe('Basic Usage', () => {
 })
 
 describe('Performance Tests', () => {
-    it('Creating ONE milion of documents', () => {
+    it('Creating ONE milion of documents with `bulkCreate()`', () => {
         const Memory = new Imd()
 
         Memory.bulkCreate('Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch&'.repeat(999999).split('&'))
-
         expect(Memory.documents.length).toEqual(1000000)
     })
 })
