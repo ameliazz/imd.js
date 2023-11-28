@@ -1,12 +1,13 @@
 {
     "name": "imd.js",
     "description": "Elegant JavaScript alternative for in-memory documents",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "license": "LGPL-3.0-only",
     "author": "Amélia Ribeiro <its.amelina@proton.me> (https://ameliadev.tech/)",
     "keywords": [
-        "in-memory",
         "imdjs",
+        "cache",
+        "in-memory",
         "documents"
     ],
     "main": "dist/index.js",
@@ -16,13 +17,18 @@
         "jest": "^29.7.0",
         "jest-extended": "^4.0.2",
         "ts-jest": "^29.1.1",
+        "tsc-alias": "^1.8.8",
         "typescript": "^5.2.2"
     },
     "dependencies": {
-        "eventemitter3": "^5.0.1"
+        "eventemitter3": "^5.0.1",
+        "colors": "^1.4.0",
+        "socket.io": "^4.7.2",
+        "socket.io-client": "^4.7.2"
     },
     "scripts": {
-        "build": "tsc -d --declarationDir dist",
-        "test": "jest --watchAll --detectOpenHandles"
+        "build": "tsc -d --declarationDir dist && tsc-alias",
+        "test:watch": "jest --watchAll --detectOpenHandles",
+        "test": "jest --detectOpenHandles"
     }
 }

@@ -3,19 +3,12 @@
     "compilerOptions": {
         "target": "ES2022",
         "module": "CommonJS",
-        "lib": [
-            "ES6",
-            "ESNext",
-            "ESNext.BigInt"
-        ],
+        "lib": ["ES6", "ESNext", "ESNext.BigInt"],
         "rootDir": "./source",
         "outDir": "./dist",
         "removeComments": true,
         "strict": true,
-        "typeRoots": [
-            "./source/@types/*.d",
-            "./node_modules/@types"
-        ],
+        "typeRoots": ["./source/@types/*.d", "./node_modules/@types"],
         "esModuleInterop": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
@@ -25,15 +18,10 @@
         "emitDecoratorMetadata": true,
         "strictPropertyInitialization": false,
         "baseUrl": "./source",
-        "paths": {}
+        "paths": {
+            "@/*": ["*"]
+        }
     },
-    "include": [
-        "./source/**/*"
-    ],
-    "exclude": [
-        "build",
-        "node_modules",
-        "package-lock.json",
-        "package.json"
-    ]
+    "include": ["./source/**/*"],
+    "exclude": ["build", "node_modules", "package-lock.json", "package.json"]
 }
