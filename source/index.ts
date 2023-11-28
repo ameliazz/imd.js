@@ -10,40 +10,57 @@ class Imd extends Emitter {
 
     constructor(Options?: ImdOptions) {
         super()
-        this.maxDocuments = isNaN(Number(Options?.maxDocuments)) ? -1 : Number(Options?.maxDocuments)
+        this.maxDocuments = isNaN(Number(Options?.maxDocuments))
+            ? -1
+            : Number(Options?.maxDocuments)
     }
 
-    create<T>(content: T, key?: string): Document<T> | undefined {
-        if (this.maxDocuments !== -1 && (this.documents.length + 1) >= this.maxDocuments) {
+    create<T>(
+        content: T,
+        key?: string,
+        timestamp?: string,
+    ): Document<T> | undefined {
+        if (
+            this.maxDocuments !== -1 &&
+            this.documents.length + 1 >= this.maxDocuments
+        ) {
             throw new Error('The documents limit has been reached!')
         }
 
-        const document = new Document<T>((key || (this.documents.length + 1)), content)
+        const document = new Document<T>(
+            key || this.documents.length + 1,
+            content,
+            timestamp,
+        )
         this.emit('create', document)
         this.documents.push(document)
 
         return document
     }
 
-    bulkCreate<T>(documents: { key?: string, content: T }[] | T[]): Document<T>[] | undefined {
+    bulkCreate<T>(
+        documents: { key?: string; content: T }[] | T[],
+    ): Document<T>[] | undefined {
         console.warn('WARN: `bulkCreate()` METHOD IS A EXPERIMENTAL FUNCTION')
 
-        if (this.maxDocuments !== -1 && (this.documents.length + documents.length) >= this.maxDocuments) {
+        if (
+            this.maxDocuments !== -1 &&
+            this.documents.length + documents.length >= this.maxDocuments
+        ) {
             throw new Error('The documents limit has been reached!')
         }
 
         const length = this.documents.length
 
         for (const documentData of documents) {
-            const document = typeof documentData == 'object'
-                ? new Document<T>(
-                    Object(documentData)?.key || (this.documents.length + 1),
-                    Object(documentData)?.content
-                )
-                : new Document<T>(
-                    (this.documents.length + 1),
-                    documentData
-                )
+            const document =
+                typeof documentData == 'object'
+                    ? new Document<T>(
+                          Object(documentData)?.key ||
+                              this.documents.length + 1,
+                          Object(documentData)?.content,
+                      )
+                    : new Document<T>(this.documents.length + 1, documentData)
 
             this.documents.push(document)
         }
@@ -77,14 +94,16 @@ class Imd extends Emitter {
         }
 
         if (!isNaN(Number(identifier))) {
-            const resultOfSearch = SearchByNumericIdentifier(this.documents, Number(identifier))
-            return (resultOfSearch == -1
+            const resultOfSearch = SearchByNumericIdentifier(
+                this.documents,
+                Number(identifier),
+            )
+            return resultOfSearch == -1
                 ? undefined
                 : this.documents[resultOfSearch]
-            )
         }
 
-        return this.documents.find(document => document._id == identifier)
+        return this.documents.find((document) => document._id == identifier)
     }
 }
 

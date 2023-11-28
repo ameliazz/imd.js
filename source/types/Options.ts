@@ -1,4 +1,3 @@
 export interface ImdOptions {
-    maxDocuments?: number,
-    monitor?: boolean
+    maxDocuments?: number
 }

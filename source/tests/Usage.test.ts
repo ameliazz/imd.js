@@ -1,4 +1,4 @@
-import Imd, { Document } from '../source/index'
+import Imd, { Document } from '@/index'
 
 describe('Basic Usage', () => {
     it('Creating and Obtain ONE document', () => {

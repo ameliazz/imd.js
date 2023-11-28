@@ -1,6 +1,9 @@
 import Document from '../structures/Document'
 
-export const SearchByNumericIdentifier = (list: Document<any>[], target: number) => {
+export const SearchByNumericIdentifier = (
+    list: Document<unknown>[],
+    target: number,
+) => {
     let left = 0
     let right = list.length - 1
 
