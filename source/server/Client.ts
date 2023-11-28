@@ -9,7 +9,7 @@ class Client {
 
     constructor(
         connectionUrl: string,
-        connectionOptions: ImdClientConnectionOptions,
+        connectionOptions: ImdClientConnectionOptions
     ) {
         this.io = io(connectionUrl, {
             auth: {
@@ -26,14 +26,14 @@ class Client {
                 Colors.red('[ CLIENT-ERROR ]') +
                     ': ' +
                     error.message +
-                    Colors.black(` (${error.code})`),
+                    Colors.black(` (${error.code})`)
             )
         })
 
         this.io.on('hydrate', (data) => {
             console.log(
                 Colors.blue('[ Hydrating ]') +
-                    ': Hydrating documents from the server',
+                    ': Hydrating documents from the server'
             )
 
             if (Array.isArray(data)) {
@@ -42,10 +42,12 @@ class Client {
                 this.cache.create(
                     data.content,
                     data.key || data._id,
-                    data.timestamp,
+                    data.timestamp
                 )
             }
         })
+
+        this.io.on('remove', (identifier: number | string) => {})
 
         this.io.connect()
     }
@@ -53,7 +55,7 @@ class Client {
     create<T>(
         content: T,
         key?: string,
-        timestamp?: string,
+        timestamp?: string
     ): Document<T> | undefined {
         const document = this.cache.create(content, key, timestamp)
 

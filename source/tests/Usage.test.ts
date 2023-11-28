@@ -3,7 +3,9 @@ import Imd, { Document } from '@/index'
 describe('Basic Usage', () => {
     it('Creating and Obtain ONE document', () => {
         const Memory = new Imd()
-        const document = Memory.create('Hello World! Its the first document of this test')
+        const document = Memory.create(
+            'Hello World! Its the first document of this test'
+        )
 
         const result = Memory.rescue(Number(document?._id))
         expect(result).toBeInstanceOf(Document<string>)
@@ -31,15 +33,20 @@ describe('Feature Tests', () => {
     it('Reaching the maximum document limit', () => {
         expect(() => {
             const Memory = new Imd({
-                maxDocuments: 20
+                maxDocuments: 20,
             })
 
-            Memory.bulkCreate('test&'.repeat(50).split('&').map((text, index) => {
-                return {
-                    key: String(index++),
-                    content: text
-                }
-            }))
+            Memory.bulkCreate(
+                'test&'
+                    .repeat(50)
+                    .split('&')
+                    .map((text, index) => {
+                        return {
+                            key: String(index++),
+                            content: text,
+                        }
+                    })
+            )
         }).toThrow()
     })
 })
@@ -48,7 +55,11 @@ describe('Performance Tests', () => {
     it('Creating ONE milion of documents with `bulkCreate()`', () => {
         const Memory = new Imd()
 
-        Memory.bulkCreate('Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch&'.repeat(999999).split('&'))
+        Memory.bulkCreate(
+            'Llanfairpwllgwyngyllgogerychwyrndrobwllllantysiliogogogoch&'
+                .repeat(999999)
+                .split('&')
+        )
         expect(Memory.documents.length).toEqual(1000000)
     })
 })

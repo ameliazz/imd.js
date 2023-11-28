@@ -11,6 +11,8 @@ class Server {
     authPassport: string
 
     constructor(passport: string, hydrateInterval: number = 5 * (60 * 1000)) {
+        console.warn('WARN: `Server` IS AN EXPERIMENTAL FEATURE')
+
         this.hydrateInterval = hydrateInterval
         this.authPassport = passport
 
@@ -34,8 +36,8 @@ class Server {
             console.log(
                 Colors.green(`[ NEW CONNECTION ]`) +
                     `: New client are connected from ${Colors.red(
-                        socket.handshake.address,
-                    )}`,
+                        socket.handshake.address
+                    )}`
             )
             ClientEvents(socket, this.cache, this.io, this.hydrateInterval)
         })

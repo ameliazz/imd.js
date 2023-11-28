@@ -11,7 +11,7 @@ export default (
     socket: Socket,
     cache: Imd,
     io: Server,
-    hydrateInterval: number,
+    hydrateInterval: number
 ) => {
     const interval = setInterval(() => {
         socket.emit('hydrate', cache.documents)
@@ -35,14 +35,14 @@ export default (
         console.log(
             Colors.green(`[ OPERATION ]`) +
                 `: New ${Colors.cyan('CREATE')} operation from ${Colors.red(
-                    socket.handshake.address,
-                )}`,
+                    socket.handshake.address
+                )}`
         )
 
         cache.create(
             document.content,
             document._id ? String(document._id) : undefined,
-            document.timestamp || new Date().toISOString(),
+            document.timestamp || new Date().toISOString()
         )
         io.to('clients').emit('hydrate', document)
     })
@@ -56,5 +56,7 @@ export default (
                 message: `The "${identifier}" document removal process failed`,
             })
         }
+
+        io.to('clients').emit('remove', identifier)
     })
 }

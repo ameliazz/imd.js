@@ -1,8 +1,10 @@
 import Emitter from 'eventemitter3'
 
-import Document from './structures/Document'
-import { ImdOptions } from './types/Options'
-import { SearchByNumericIdentifier } from './utils/search'
+import Document from '@/structures/Document'
+import { ImdOptions } from '@/types/Options'
+import { SearchByNumericIdentifier } from '@/utils/search'
+import Server from '@/server/IO'
+import Client from '@/server/Client'
 
 class Imd extends Emitter {
     documents: Document<unknown>[] = []
@@ -41,7 +43,7 @@ class Imd extends Emitter {
     bulkCreate<T>(
         documents: { key?: string; content: T }[] | T[],
     ): Document<T>[] | undefined {
-        console.warn('WARN: `bulkCreate()` METHOD IS A EXPERIMENTAL FUNCTION')
+        console.warn('WARN: `bulkCreate()` METHOD IS AN EXPERIMENTAL FUNCTION')
 
         if (
             this.maxDocuments !== -1 &&
@@ -56,7 +58,7 @@ class Imd extends Emitter {
             const document =
                 typeof documentData == 'object'
                     ? new Document<T>(
-                          Object(documentData)?.key ||
+                          Object(documentData)?.key || Object(documentData)?._id ||
                               this.documents.length + 1,
                           Object(documentData)?.content,
                       )
@@ -108,4 +110,4 @@ class Imd extends Emitter {
 }
 
 export default Imd
-export { Document }
+export { Server, Client, Document }

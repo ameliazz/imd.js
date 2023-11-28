@@ -5,8 +5,9 @@
     "license": "LGPL-3.0-only",
     "author": "Amélia Ribeiro <its.amelina@proton.me> (https://ameliadev.tech/)",
     "keywords": [
-        "in-memory",
         "imdjs",
+        "cache",
+        "in-memory",
         "documents"
     ],
     "main": "dist/index.js",
@@ -27,6 +28,7 @@
     },
     "scripts": {
         "build": "tsc -d --declarationDir dist && tsc-alias",
-        "test": "jest --watchAll --detectOpenHandles"
+        "test:watch": "jest --watchAll --detectOpenHandles",
+        "test": "jest --detectOpenHandles"
     }
 }

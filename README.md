@@ -9,10 +9,19 @@ Imd.js (_`In Memory Documents`_) is a powerful alternative library for saving da
 
 -   _Remote sync;_
 -   _Fast and elegant;_
--   _Easy integration and ready to use_
+-   _Easy integration and ready to use;_
 -   _Key or auto increased number in Document Identifiers;_
 
+## 🔺 ] Links
+
+-   _Package_:
+-   -   [npm](https://www.npmjs.com/package/imd.js)
+-   _Contributors_:
+-   -   [Amélia R.](https://github.com/Canary2000)
+
 ## 📗 ] Quick Starting
+
+This quick start guide shows you how to use the basic functions of the library in local use, for integrated server use cases visit the documentation...
 
 Import, first we need to import the library
 
@@ -42,8 +51,15 @@ MyDocuments.bulkCreate([
     {
         content: 'Hello World',
     },
+    {
+        key: 'hello-world-in-portuguese',
+        content: 'Olá mundo',
+    },
 ])
-// => Document { _id: 1, content: "Hello World!", timestamp: "..." }
+// => [
+//      Document { _id: 1, content: "Hello World!", timestamp: "..." },
+//      Document { _id: "hello-world-in-portuguese", content: "Olá mundo!", timestamp: "..." },
+//   ]
 ```
 
 -   _`rescue(identificator)`_: Used to obtain a document
@@ -61,3 +77,9 @@ MyDocuments.rescue(MyTextDocument._id)
 MyDocuments.remove('document-id')
 // => true
 ```
+
+---
+
+<p align='center'>
+    Made with 💜 by <a href='https://github.com/Canary2000' target='_blank'>Amélia R.</a>
+</p>
