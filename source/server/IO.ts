@@ -3,16 +3,22 @@ import Colors from 'colors'
 import timingSafeEqual from '@/utils/timingSafeEqual'
 import Imd from '@/index'
 import ClientEvents from './SocketEvents'
+import { ImdOptions } from '@/types/Options'
 
 class Server {
     io = new SocketIO.Server()
-    cache = new Imd()
+    cache: Imd
     hydrateInterval: number
     authPassport: string
 
-    constructor(passport: string, hydrateInterval: number = 5 * (60 * 1000)) {
+    constructor(
+        passport: string,
+        hydrateInterval: number = 5 * (60 * 1000),
+        options?: ImdOptions
+    ) {
         console.warn('WARN: `Server` IS AN EXPERIMENTAL FEATURE')
 
+        this.cache = new Imd(options)
         this.hydrateInterval = hydrateInterval
         this.authPassport = passport
 
@@ -43,8 +49,8 @@ class Server {
         })
     }
 
-    init() {
-        return this.io.listen(3000)
+    listen(port: number) {
+        return this.io.listen(Number(port || process.env['IMD_SERVER_PORT']))
     }
 }
 
