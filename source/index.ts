@@ -53,7 +53,9 @@ class Imd extends Emitter {
     bulkCreate<T>(
         documents: { key?: string; content: T }[] | T[]
     ): Document<T>[] | undefined {
-        console.warn('WARN: `bulkCreate()` METHOD IS AN EXPERIMENTAL FUNCTION')
+        console.warn(
+            '---------- WARN: `bulkCreate()` METHOD IS AN EXPERIMENTAL FUNCTION ----------'
+        )
 
         if (
             this.maxDocuments !== -1 &&
