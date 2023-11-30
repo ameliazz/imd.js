@@ -14,7 +14,9 @@ class Imd extends Emitter {
     constructor(Options?: ImdOptions) {
         super()
 
-        this.ttl = Options?.ttl || -1
+        this.ttl = !isNaN(Number(Options?.ttl))
+            ? -1
+            : Number(Options?.ttl) * 1000 || -1
         this.maxDocuments = isNaN(Number(Options?.maxDocuments))
             ? -1
             : Number(Options?.maxDocuments)
