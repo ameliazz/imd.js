@@ -47,7 +47,7 @@ class Client {
             }
         })
 
-        this.io.on('remove', (identifier: number | string) => {})
+        this.io.on('remove', (identifier) => this.cache.remove(identifier))
 
         this.io.connect()
     }

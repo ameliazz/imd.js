@@ -2,9 +2,12 @@ node_modules/
 source/
 tests/
 dist/tests
+.github/
 
 tsconfig.json
 jest.config.js
+.eslintrc.json
+.prettierrc.json
 
 .gitignore
 yarn.lock

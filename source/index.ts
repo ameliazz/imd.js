@@ -9,9 +9,12 @@ import Client from '@/server/Client'
 class Imd extends Emitter {
     documents: Document<unknown>[] = []
     maxDocuments: number
+    ttl: number
 
     constructor(Options?: ImdOptions) {
         super()
+
+        this.ttl = Options?.ttl || -1
         this.maxDocuments = isNaN(Number(Options?.maxDocuments))
             ? -1
             : Number(Options?.maxDocuments)
@@ -20,11 +23,11 @@ class Imd extends Emitter {
     create<T>(
         content: T,
         key?: string,
-        timestamp?: string,
+        timestamp?: string
     ): Document<T> | undefined {
         if (
             this.maxDocuments !== -1 &&
-            this.documents.length + 1 >= this.maxDocuments
+            this.documents.length + 1 > this.maxDocuments
         ) {
             throw new Error('The documents limit has been reached!')
         }
@@ -32,18 +35,27 @@ class Imd extends Emitter {
         const document = new Document<T>(
             key || this.documents.length + 1,
             content,
-            timestamp,
+            timestamp
         )
+
         this.emit('create', document)
         this.documents.push(document)
+
+        if (this.ttl >= 1) {
+            setTimeout(() => {
+                this.remove(document._id)
+            }, this.ttl)
+        }
 
         return document
     }
 
     bulkCreate<T>(
-        documents: { key?: string; content: T }[] | T[],
+        documents: { key?: string; content: T }[] | T[]
     ): Document<T>[] | undefined {
-        console.warn('WARN: `bulkCreate()` METHOD IS AN EXPERIMENTAL FUNCTION')
+        console.warn(
+            '---------- WARN: `bulkCreate()` METHOD IS AN EXPERIMENTAL FUNCTION ----------'
+        )
 
         if (
             this.maxDocuments !== -1 &&
@@ -58,9 +70,10 @@ class Imd extends Emitter {
             const document =
                 typeof documentData == 'object'
                     ? new Document<T>(
-                          Object(documentData)?.key || Object(documentData)?._id ||
+                          Object(documentData)?.key ||
+                              Object(documentData)?._id ||
                               this.documents.length + 1,
-                          Object(documentData)?.content,
+                          Object(documentData)?.content
                       )
                     : new Document<T>(this.documents.length + 1, documentData)
 
@@ -98,7 +111,7 @@ class Imd extends Emitter {
         if (!isNaN(Number(identifier))) {
             const resultOfSearch = SearchByNumericIdentifier(
                 this.documents,
-                Number(identifier),
+                Number(identifier)
             )
             return resultOfSearch == -1
                 ? undefined

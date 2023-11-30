@@ -5,6 +5,8 @@
 
 Imd.js (_`In Memory Documents`_) is a powerful alternative library for saving data in memory.
 
+[![🚀 Package](https://github.com/Canary2000/imd.js/actions/workflows/publish.yml/badge.svg)](https://github.com/Canary2000/imd.js/actions/workflows/publish.yml)
+
 ## 📚 ] Features
 
 -   _Remote sync;_
